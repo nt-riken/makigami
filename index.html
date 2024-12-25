@@ -3,15 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Log Search Engine</title>
+    <title>Makigami - High-Performance Log Search for Low-Speed Storage</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
 </head>
 <body class="bg-gray-50">
     <!-- Hero Section -->
     <header class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-600 to-indigo-900 text-white">
         <div class="container mx-auto px-6 py-24 text-center">
-            <h1 class="text-5xl font-bold mb-8">High-Performance Log Search Engine</h1>
-            <p class="text-xl mb-12">Efficient log analysis solution for enterprise audit requirements</p>
+            <h1 class="text-5xl font-bold mb-8">Makigami</h1>
+            <p class="text-2xl mb-4">High-Performance Log Search for Low-Speed Storage</p>
+            <p class="text-xl mb-12 max-w-3xl mx-auto">Achieve fast log searches on HDDs through sequential read optimization and efficient indexing</p>
             <a href="#features" class="bg-white text-blue-600 px-8 py-3 rounded-full font-medium hover:bg-blue-50 transition-colors">Learn More</a>
         </div>
     </header>
@@ -27,26 +28,26 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
                         </svg>
                     </div>
-                    <h3 class="text-xl font-semibold mb-4">High Performance</h3>
-                    <p class="text-gray-600">Optimized indexing for rapid search across massive log datasets</p>
+                    <h3 class="text-xl font-semibold mb-4">Optimized for HDDs</h3>
+                    <p class="text-gray-600">Fast search performance even on low-speed storage through sequential read optimization</p>
                 </div>
                 <div class="text-center">
                     <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
                         <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                         </svg>
                     </div>
-                    <h3 class="text-xl font-semibold mb-4">Cost Effective</h3>
-                    <p class="text-gray-600">Reduce SIEM license costs while maintaining audit capabilities</p>
+                    <h3 class="text-xl font-semibold mb-4">Tiny Index Size</h3>
+                    <p class="text-gray-600">Only 0.5% of original log file size, minimizing storage overhead</p>
                 </div>
                 <div class="text-center">
                     <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
                         <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
                         </svg>
                     </div>
-                    <h3 class="text-xl font-semibold mb-4">Enterprise Ready</h3>
-                    <p class="text-gray-600">Built for security audits and compliance requirements</p>
+                    <h3 class="text-xl font-semibold mb-4">UNIX Philosophy</h3>
+                    <p class="text-gray-600">Seamlessly integrates with grep, awk, and other command-line tools</p>
                 </div>
             </div>
         </div>
@@ -56,35 +57,52 @@
     <section class="py-20 bg-gray-100">
         <div class="container mx-auto px-6">
             <h2 class="text-3xl font-bold text-center mb-16">How It Works</h2>
-            <div class="max-w-3xl mx-auto">
-                <ol class="relative border-l border-gray-300">
-                    <li class="mb-10 ml-6">
-                        <div class="absolute w-3 h-3 bg-blue-600 rounded-full -left-1.5 border border-white"></div>
-                        <h3 class="text-lg font-semibold text-gray-900">Index Creation</h3>
-                        <p class="text-base text-gray-700">Efficient indexing of log data from low-speed storage</p>
-                    </li>
-                    <li class="mb-10 ml-6">
-                        <div class="absolute w-3 h-3 bg-blue-600 rounded-full -left-1.5 border border-white"></div>
-                        <h3 class="text-lg font-semibold text-gray-900">Search Optimization</h3>
-                        <p class="text-base text-gray-700">High-speed search capabilities across indexed logs</p>
-                    </li>
-                    <li class="ml-6">
-                        <div class="absolute w-3 h-3 bg-blue-600 rounded-full -left-1.5 border border-white"></div>
-                        <h3 class="text-lg font-semibold text-gray-900">Audit Ready</h3>
-                        <p class="text-base text-gray-700">Generate compliance reports and audit trails</p>
-                    </li>
-                </ol>
+            <div class="max-w-4xl mx-auto">
+                <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+                    <h3 class="text-xl font-semibold mb-4">1. Build Index</h3>
+                    <div class="bg-gray-800 text-white p-4 rounded-lg">
+                        <code class="font-mono">makigami build LOG_FILE</code>
+                    </div>
+                    <p class="mt-4 text-gray-600">Creates a compressed .zstd file and a tiny .mg index file</p>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+                    <h3 class="text-xl font-semibold mb-4">2. Search Logs</h3>
+                    <div class="bg-gray-800 text-white p-4 rounded-lg">
+                        <code class="font-mono">makigami search -z LOG_FILE.zstd -i LOG_FILE.mg "search string"</code>
+                    </div>
+                    <p class="mt-4 text-gray-600">Quickly finds text blocks containing your search string</p>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                    <h3 class="text-xl font-semibold mb-4">3. Process Results</h3>
+                    <div class="bg-gray-800 text-white p-4 rounded-lg">
+                        <code class="font-mono">makigami search ... | grep pattern | awk '{print $1}'</code>
+                    </div>
+                    <p class="mt-4 text-gray-600">Pipe output to your favorite command-line tools</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Makigami -->
+    <section class="py-20">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center mb-16">Why Makigami?</h2>
+            <div class="max-w-3xl mx-auto prose lg:prose-lg">
+                <p class="mb-6">Named after the Japanese word for "scroll paper" (巻紙), Makigami processes logs sequentially, similar to unrolling a scroll. This approach, combined with efficient indexing, enables high-performance searches even on low-speed storage.</p>
+                <p class="mb-6">Unlike traditional SIEM solutions that require high-performance storage, Makigami works efficiently with HDDs by utilizing sequential reads and intelligent index-based skipping.</p>
             </div>
         </div>
     </section>
 
     <!-- Call to Action -->
-    <section class="py-20">
+    <section class="py-20 bg-gray-100">
         <div class="container mx-auto px-6 text-center">
             <h2 class="text-3xl font-bold mb-8">Ready to Get Started?</h2>
             <div class="flex justify-center space-x-4">
-                <a href="https://github.com/your-username/your-repo" class="bg-blue-600 text-white px-8 py-3 rounded-full font-medium hover:bg-blue-700 transition-colors">View on GitHub</a>
-                <a href="#" class="border border-blue-600 text-blue-600 px-8 py-3 rounded-full font-medium hover:bg-blue-50 transition-colors">Documentation</a>
+                <a href="https://github.com/nt-riken/makigami" class="bg-blue-600 text-white px-8 py-3 rounded-full font-medium hover:bg-blue-700 transition-colors">View on GitHub</a>
+                <a href="https://github.com/nt-riken/makigami#readme" class="border border-blue-600 text-blue-600 px-8 py-3 rounded-full font-medium hover:bg-blue-50 transition-colors">Documentation</a>
             </div>
         </div>
     </section>
