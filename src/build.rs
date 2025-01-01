@@ -3,6 +3,7 @@ use std::io::{self, Write, Seek, SeekFrom};
 use memmap2::Mmap;
 use zstd::Encoder;
 use std::collections::HashSet;
+use rand::Rng;
 
 use bincode::{
     config::{standard, Configuration},
@@ -10,7 +11,7 @@ use bincode::{
     Encode,
 };
 use gxhash::GxBuildHasher;
-use xorf::BinaryFuse8;
+use xorf::{Filter, BinaryFuse8};
 
 use crate::utils::{default_output_names_if_omitted, CHUNK_SIZE};
 
@@ -85,7 +86,7 @@ pub fn run_build(
         index_file.write_all(&frame_info_bytes)?;
 
         let filter_bytes =
-            encode_to_vec(&filter, bin_cfg).expect("Failed to encode BinaryFuse8");
+            encode_to_vec(&filter, bin_cfg).expect("Failed to encode BinaryFuse16");
         index_file.write_all(&filter_bytes)?;
 
         start = actual_end;
@@ -113,13 +114,34 @@ fn compress_and_write_chunk(chunk: &[u8], output: &mut File) -> io::Result<u64> 
 /// Build a BinaryFuse8 filter for unique 3-byte triplets
 fn build_binaryfuse_filter(chunk: &[u8]) -> BinaryFuse8 {
     let mut set = HashSet::with_hasher(GxBuildHasher::default());
-    for window in chunk.windows(3) {
+    
+    for window in chunk.windows(8) {
+        /*
         let key = ((window[0] as u64) << 16)
             | ((window[1] as u64) << 8)
-            | (window[2] as u64);
+            | (window[2] as u64)
+            | (window[3] as u64) << 24;
+            */
+        let key = u64::from_le_bytes(window.try_into().unwrap());
         set.insert(key);
     }
 
+    let numkeys = set.len();
     let keys: Vec<u64> = set.into_iter().collect();
-    BinaryFuse8::try_from(&keys[..]).expect("Failed to build BinaryFuse filter")
+    let filter = BinaryFuse8::try_from(&keys[..]).expect("Failed to build BinaryFuse filter");
+
+    
+    let bpe = (filter.len() as f64) * 16.0 / (numkeys as f64);
+    let mut rng = rand::thread_rng();
+    let false_positives: usize = (0..numkeys)
+        .map(|_| rng.gen::<u64>())
+        .filter(|n| filter.contains(n))
+        .count();
+    let fp_rate: f64 = (false_positives * 100) as f64 / numkeys as f64;
+
+    println!("set size: {}", numkeys);
+    println!("bpe: {}", bpe);
+    println!("fp rate: {}", fp_rate);
+    
+    filter
 }

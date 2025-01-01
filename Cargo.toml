@@ -5,6 +5,12 @@ edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
+[profile.release]
+opt-level = 3 # aggressive optimization
+lto = "fat"  # aggressive optimization
+codegen-units = 1  # aggressive optimization
+debug = false
+
 [dependencies]
 zstd = "0.13.2"
 memmap2 = "0.9.5"
@@ -16,3 +22,4 @@ gxhash = "3.4.1"     # or the version you found
 serde = { version = "1.0.216", features = ["derive"] }
 
 clap = { version = "*", features = [ "derive" ] }
+
