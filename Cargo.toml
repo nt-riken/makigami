@@ -11,6 +11,14 @@ lto = "fat"  # aggressive optimization
 codegen-units = 1  # aggressive optimization
 debug = false
 
+[profile.flamegraph]
+inherits = "release"
+opt-level = 0         # Disable optimizations
+lto = "off"           # Disable link-time optimizations
+codegen-units = 16    # Allow more parallel code generation for faster builds
+debug = true          # Include debug symbols
+overflow-checks = true # Enable runtime overflow checks (default in debug builds)
+
 [dependencies]
 zstd = "0.13.2"
 memmap2 = "0.9.5"

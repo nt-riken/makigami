@@ -2,6 +2,7 @@ use std::path::{Path, PathBuf};
 
 /// Our default chunk size for splitting
 pub const CHUNK_SIZE: usize = 64 * 1024 * 1024;
+pub const HASH_CAPACITY: usize = 2 << 23; // 16M, must be power of 2
 
 /// Derive default `.zst` and `.idx` output filenames from the input.
 /// If the user provided `--zst` or `--idx`, we respect that. Otherwise, 
