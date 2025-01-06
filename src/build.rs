@@ -93,6 +93,7 @@ pub fn run_build(
             while let Ok((chunk_index, chunk_data)) = rx.recv() {
                 // Build the filter (expensive)
                 let filter = build_binaryfuse_filter(&chunk_data, &mut set);
+                println!("collision_count: {}", set.collision_count());
 
                 // Possibly compress here, or return the raw chunk_data and let
                 // the writer do the compression. In this example, we do NOT compress
