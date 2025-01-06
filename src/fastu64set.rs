@@ -22,6 +22,26 @@ impl FastSet {
         z = (z ^ (z >> 27)).wrapping_mul(0x94d049bb133111eb);
         z ^ (z >> 31)
     }
+
+    #[inline(always)]
+    fn xxhash64(input: u64) -> u64 {
+        let mut hash = 0x9747b28c; // Prime number used as the seed.
+        let mut temp = input;
+    
+        // Mix the bits of the input using a series of bitwise operations.
+        temp ^= temp >> 31;
+        temp = temp.wrapping_mul(0xbea225f9eb34556d);
+        temp ^= temp >> 27;
+        temp = temp.wrapping_mul(0x94d049bb133111eb);
+        temp ^= temp >> 31;
+    
+        // Mix the bits of the hash and the input.
+        hash ^= temp;
+        hash = hash.rotate_left(27);
+        hash = hash.wrapping_mul(0x9cb4bc65158fe28f);
+
+        return hash;
+    }
     // normal new
     pub fn new(capacity: usize) -> Self {
         let table = vec![0_u64; capacity];
@@ -41,10 +61,10 @@ impl FastSet {
        
         // let table_ptr = self.table.as_mut_ptr();
         // let mut start_idx = gxhash64(&value.to_le_bytes(),1234567890) as usize & (self.table.len() - 1); // GxHash
-        let start_idx = Self::splitmix64(value) as usize & (self.table.len() - 1); // FxHash, self.table.len() - 1
+        let start_idx = Self::xxhash64(value) as usize & (self.table.len() - 1); // FxHash, self.table.len() - 1
         let mut idx = start_idx;
         let mask = self.table.len() - 1;
-        let mut i: usize= 1; // quadratic probing
+        // let mut i: usize= 1; // quadratic probing
         
 
     // normal loop version
@@ -61,12 +81,12 @@ impl FastSet {
                 self.collision_count += 1;
             }
             
-            //idx = (idx + 1) & mask;
-            idx = (start_idx + i.wrapping_mul(i)) & mask;
-            i += 1;
+            idx = (idx + 1) & mask;
+            //idx = (start_idx + i.wrapping_mul(i)) & mask;
+            //i += 1;
 
-            //if idx == start_idx {
-            if i > self.table.len() {
+            if idx == start_idx {
+            //if i > self.table.len() {
                 // The table is full or we've tried everything
                 panic!("Hash table is full");
             }
