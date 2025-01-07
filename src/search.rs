@@ -31,21 +31,10 @@ pub fn run_search(
     let mut keys = Vec::new();
     for window in pattern_bytes.windows(8) {
         let key = u64::from_le_bytes(window.try_into().unwrap());
-        keys.push(key);
-        /*
-        let key = ((window[0] as u64) << 16)
-            | ((window[1] as u64) << 8)
-            | (window[2] as u64)
-            | (window[3] as u64) << 24;
-            
-    for window in pattern_bytes.windows(3) {
-        let key = ((window[0] as u64) << 16)
-            | ((window[1] as u64) << 8)
-            | (window[2] as u64);*/
-        keys.push(key);
+        keys.push(key & 0xFFFFFFFF);
     }
 
-    // Open .zst and .idx
+    // Open .zst and .mg
     let mut idx_file = File::open(&idx_path)?;
     let mut zst_file = File::open(zst_path)?;
 

@@ -27,7 +27,7 @@ pub fn default_output_names_if_omitted(
     let idx_path = if let Some(given) = maybe_idx {
         PathBuf::from(given)
     } else {
-        input.with_file_name(format!("{}.idx", stem.to_string_lossy()))
+        input.with_file_name(format!("{}.mg", stem.to_string_lossy()))
     };
 
     (zst_path, idx_path)
@@ -45,6 +45,6 @@ pub fn default_index_if_omitted(
         // Replace .zst with .idx if extension is .zst
         // or just append .idx if there's no extension
         let path = Path::new(zst_path);
-        path.with_extension("idx")
+        path.with_extension("mg")
     }
 }

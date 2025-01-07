@@ -7,12 +7,6 @@ pub struct FastSet {
 }
 
 impl FastSet {
-    #[inline(always)]
-    fn hash(x: u64) -> u64 {
-        // FxHash core mixing function
-        const K: u64 = 0x517cc1b727220a95;
-        (x.wrapping_mul(K)) >> 32
-    }
 
     #[inline(always)]
     fn splitmix64(mut x: u64) -> u64 {
@@ -61,7 +55,7 @@ impl FastSet {
        
         // let table_ptr = self.table.as_mut_ptr();
         // let mut start_idx = gxhash64(&value.to_le_bytes(),1234567890) as usize & (self.table.len() - 1); // GxHash
-        let start_idx = Self::xxhash64(value) as usize & (self.table.len() - 1); // FxHash, self.table.len() - 1
+        let start_idx = Self::splitmix64(value) as usize & (self.table.len() - 1); // FxHash, self.table.len() - 1
         let mut idx = start_idx;
         let mask = self.table.len() - 1;
         // let mut i: usize= 1; // quadratic probing
@@ -109,6 +103,7 @@ impl FastSet {
         // .fill() is usually efficient, but you can also use write_bytes if you prefer
         self.table.fill(0);
         self.size = 0;
+        self.collision_count = 0;
     }
 
     pub fn extract(&self) -> Vec<u64> {

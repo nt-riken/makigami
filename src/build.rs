@@ -73,8 +73,9 @@ pub fn run_build(
     // 4) Channels for pipeline
     //    - `chunk_sender`: main thread -> worker threads
     //    - `chunk_receiver`: worker threads -> writer thread
-    let (chunk_sender, worker_rx) = mpsc::channel::<(usize, Vec<u8>)>();
-    let (result_sender, chunk_receiver) = mpsc::channel::<ChunkResult>();
+    const CHANNEL_CAPACITY: usize = 10;
+    let (chunk_sender, worker_rx) = mpsc::sync_channel::<(usize, Vec<u8>)>(CHANNEL_CAPACITY);
+    let (result_sender, chunk_receiver) = mpsc::sync_channel::<ChunkResult>(CHANNEL_CAPACITY);
 
     // 5) Spawn some worker threads that build filters (the expensive part).
     //    You can tweak the number of threads as needed.
@@ -82,15 +83,18 @@ pub fn run_build(
 
     let arc_rx = Arc::new(Mutex::new(worker_rx));
     println!("num_workers: {}", num_workers);
+    let mut handles: Vec<_> = vec![];
+
     for _ in 0..num_workers {
         let result_sender = result_sender.clone();
         let arc_rx = Arc::clone(&arc_rx);
 
-        thread::spawn(move || {
+        let handle = thread::spawn(move || {
             let rx = arc_rx.lock().unwrap();
             let mut set = FastSet::new(HASH_CAPACITY);
 
             while let Ok((chunk_index, chunk_data)) = rx.recv() {
+                set.clear();
                 // Build the filter (expensive)
                 let filter = build_binaryfuse_filter(&chunk_data, &mut set);
                 println!("collision_count: {}", set.collision_count());
@@ -111,6 +115,7 @@ pub fn run_build(
                 }
             }
         });
+        handles.push(handle);
     };
     drop(result_sender);   // We’ll keep the one in the worker threads alive. This copy is not needed in main.
 
@@ -149,7 +154,7 @@ pub fn run_build(
 
                     drop(of); // release the lock
 
-                    // Next, write FrameInfo + filter into .idx
+                    // Next, write FrameInfo + filter into .mg (makigami index)
                     let frame_info = FrameInfo {
                         frame_offset,
                         frame_size,
@@ -211,8 +216,12 @@ pub fn run_build(
 
     // 8) Wait for writer thread to finish
     writer_handle.join().expect("Writer thread panicked");
+    // Wait for all worker threads to finish
+    for handle in handles {
+        handle.join().expect("Thread failed");
+    }
 
-    println!("Build complete. ZST: {:?} | IDX: {:?}", zst_path, idx_path);
+    println!("Build complete. ZST: {:?} | MG: {:?}", zst_path, idx_path);
     Ok(())
 }
 
@@ -233,8 +242,6 @@ fn compress_and_write_chunk(chunk: &[u8], output: &mut File) -> io::Result<u64> 
 
 /// Build a BinaryFuse8 filter for 8-byte windows in the chunk
 fn build_binaryfuse_filter(chunk: &[u8],set: &mut FastSet) -> BinaryFuse8 {
-    set.clear();
-
     for window in chunk.windows(8) {
         let key = u64::from_le_bytes(window.try_into().unwrap());
         set.insert(key);
@@ -246,6 +253,7 @@ fn build_binaryfuse_filter(chunk: &[u8],set: &mut FastSet) -> BinaryFuse8 {
     let filter = BinaryFuse8::try_from(&keys[..]).expect("Failed to build BinaryFuse8 filter");
 
     // Some debug stats
+    /*
     let bpe = (filter.len() as f64) * 16.0 / (numkeys as f64);
     let mut rng = rand::thread_rng();
     let false_positives: usize = (0..numkeys)
@@ -254,6 +262,8 @@ fn build_binaryfuse_filter(chunk: &[u8],set: &mut FastSet) -> BinaryFuse8 {
         .count();
     let fp_rate: f64 = (false_positives * 100) as f64 / numkeys as f64;
     println!("set size: {}, bpe: {}, fp_rate: {}%", numkeys, bpe, fp_rate);
+    */
+    println!("set size: {}", numkeys);
 
     filter
 }
