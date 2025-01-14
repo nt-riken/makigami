@@ -99,6 +99,38 @@
         </div>
     </section>
 
+    <!-- Benchmark -->
+    <section id="benchmarks" class="py-20 bg-gray-100">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center mb-16">Performance Benchmarks(finding last line)</h2>
+            <p class="text-center mb-8">Makigami is designed to outperform traditional log search tools, especially on HDDs.</p>
+            <table class="table-auto w-full text-left border-collapse">
+                <thead>
+                    <tr>
+                        <th class="border-b px-4 py-2">Tool</th>
+                        <th class="border-b px-4 py-2">Storage Type</th>
+                        <th class="border-b px-4 py-2">Log Size</th>
+                        <th class="border-b px-4 py-2">Search Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="border-b px-4 py-2">Makigami + grep</td>
+                        <td class="border-b px-4 py-2">HDD(500MB/s in seq.)</td>
+                        <td class="border-b px-4 py-2">200GB</td>
+                        <td class="border-b px-4 py-2">5.493s</td>
+                    </tr>
+                    <tr>
+                        <td class="border-b px-4 py-2">Traditional(zstd -d -c | grep)</td>
+                        <td class="border-b px-4 py-2">HDD</td>
+                        <td class="border-b px-4 py-2">200GB</td>
+                        <td class="border-b px-4 py-2">3m37.581s</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
     <!-- FAQ -->
     <section class="py-20 bg-gray-100">
         <div class="container mx-auto px-6">
