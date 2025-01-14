@@ -16,7 +16,7 @@ mv target/release/mg /usr/local/bin/
 
 Prebuilt binaries are available for the following platforms:
 
-- **Linux (x64)**: [Download](https://github.com/nt-riken/makigami/releases/download/v0.0.1/mg-linux-x64)
+- **Linux (x64)**: [Download](https://github.com/nt-riken/makigami/releases/download/v0.1.0/mg-linux-x64)
 
 ## Quick Example
 Build an index and search:
