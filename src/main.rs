@@ -2,6 +2,7 @@ mod cli;
 mod build;
 mod search;
 mod utils;
+mod fastu64set;
 
 use clap::Parser;
 use cli::{Cli, Commands};

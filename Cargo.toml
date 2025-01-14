@@ -3,6 +3,9 @@ name = "makigami"
 version = "0.1.0"
 edition = "2021"
 
+[[bin]]
+name = "mg"
+path = "src/main.rs"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [profile.release]
@@ -10,6 +13,14 @@ opt-level = 3 # aggressive optimization
 lto = "fat"  # aggressive optimization
 codegen-units = 1  # aggressive optimization
 debug = false
+
+[profile.flamegraph]
+inherits = "release"
+opt-level = 0         # Disable optimizations
+lto = "off"           # Disable link-time optimizations
+codegen-units = 16    # Allow more parallel code generation for faster builds
+debug = true          # Include debug symbols
+overflow-checks = true # Enable runtime overflow checks (default in debug builds)
 
 [dependencies]
 zstd = "0.13.2"
@@ -23,3 +34,4 @@ serde = { version = "1.0.216", features = ["derive"] }
 
 clap = { version = "*", features = [ "derive" ] }
 
+num_cpus = "*"
