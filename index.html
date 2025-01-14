@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta name="description" content="Makigami: High-performance log search for low-speed storage">
+    <meta name="keywords" content="log search, HDD optimization, Makigami, indexed search">
+    <meta name="author" content="nt-riken">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Makigami - High-Performance Log Search for Low-Speed Storage</title>
@@ -92,6 +95,20 @@
             <div class="max-w-3xl mx-auto prose lg:prose-lg">
                 <p class="mb-6">Named after the Japanese word for "scroll paper" (巻紙), Makigami processes logs sequentially, similar to unrolling a scroll. This approach, combined with efficient indexing, enables high-performance searches even on low-speed storage.</p>
                 <p class="mb-6">Unlike traditional SIEM solutions that require high-performance storage, Makigami works efficiently with HDDs by utilizing sequential reads and intelligent index-based skipping.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="py-20 bg-gray-100">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center mb-16">Frequently Asked Questions</h2>
+            <div class="max-w-4xl mx-auto">
+                <h3 class="text-xl font-semibold">Q: Does Makigami work on SSDs?</h3>
+                <p class="text-gray-600 mb-6">A: Yes, but its sequential read optimization is designed to maximize HDD performance.</p>
+    
+                <h3 class="text-xl font-semibold">Q: Can I use it with Windows?</h3>
+                <p class="text-gray-600">A: Not currently, as Makigami is optimized for UNIX-like environments.</p>
             </div>
         </div>
     </section>
