@@ -72,7 +72,7 @@
                 <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
                     <h3 class="text-xl font-semibold mb-4">2. Search Logs</h3>
                     <div class="bg-gray-800 text-white p-4 rounded-lg">
-                        <code class="font-mono">makigami search -z LOG_FILE.zstd -i LOG_FILE.mg "search string"</code>
+                        <code class="font-mono">mg search -z LOG_FILE.zstd -i LOG_FILE.mg "search string"</code>
                     </div>
                     <p class="mt-4 text-gray-600">Quickly finds text blocks containing your search string</p>
                 </div>
@@ -80,7 +80,7 @@
                 <div class="bg-white rounded-lg shadow-lg p-6">
                     <h3 class="text-xl font-semibold mb-4">3. Process Results</h3>
                     <div class="bg-gray-800 text-white p-4 rounded-lg">
-                        <code class="font-mono">makigami search ... | grep pattern | awk '{print $1}'</code>
+                        <code class="font-mono">mg search ... | grep pattern | awk '{print $1}'</code>
                     </div>
                     <p class="mt-4 text-gray-600">Pipe output to your favorite command-line tools</p>
                 </div>
@@ -108,7 +108,7 @@
                 <p class="text-gray-600 mb-6">A: Yes, but its sequential read optimization is designed to maximize HDD performance.</p>
     
                 <h3 class="text-xl font-semibold">Q: Can I use it with Windows?</h3>
-                <p class="text-gray-600">A: Not currently, as Makigami is optimized for UNIX-like environments.</p>
+                <p class="text-gray-600">A: Maybe yes. Currently it's not tested on Linux and Mac. Not for Windows.</p>
             </div>
         </div>
     </section>
