@@ -55,12 +55,8 @@ Describe your changes and link to the relevant issue, if applicable.
 ### 4. Improving Documentation
 If you notice missing or unclear documentation, feel free to open a PR to update the relevant files.
 
-----
-
 ## Code of Conduct
 We follow the Contributor Covenant Code of Conduct. By participating, you agree to adhere to it.
-
-----
 
 ## Development Guidelines
 
@@ -83,4 +79,7 @@ We follow the Contributor Covenant Code of Conduct. By participating, you agree 
 ### Resources
 - Issue Tracker: GitHub Issues
 - Project Documentation: GitHub Pages
+
+---
+
 Feel free to suggest further improvements! 😊
