@@ -5,3 +5,11 @@ rustflags = [
     "-C", "llvm-args=-unroll-threshold=1000",
     "-C", "llvm-args=-vectorize-slp=true"
 ]
+
+[target.x86_64-unknown-linux-musl] # Replace with your target
+rustflags = [
+    "-C", "target-cpu=native",
+    "-C", "target-feature=+avx,+avx2,+fma,+aes,+sse2,+popcnt,+f16c",
+    "-C", "llvm-args=-unroll-threshold=1000",
+    "-C", "llvm-args=-vectorize-slp=true"
+]

@@ -4,3 +4,4 @@ target
 *.svg
 perf.*
 *fw.log*
+mg
