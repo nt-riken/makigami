@@ -31,7 +31,7 @@ pub fn run_search(
     let mut keys = Vec::new();
     for window in pattern_bytes.windows(8) {
         let key = u64::from_le_bytes(window.try_into().unwrap());
-        keys.push(key & 0xFFFFFFFF);
+        keys.push(key);
     }
 
     // Open .zst and .mg
