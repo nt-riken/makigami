@@ -29,10 +29,10 @@ pub enum Commands {
     },
     /// Search within existing .zst + .idx files
     Search {
-        /// Path to .zst file
+        /// Path to .zst file (local path or gs://bucket/path)
         zst: String,
 
-        /// Optional path to .idx file
+        /// Optional path to .idx file (local path or gs://bucket/path)
         #[arg(long = "idx", short = 'i')]
         idx: Option<String>,
 

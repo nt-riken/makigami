@@ -1,11 +1,10 @@
-use std::fs::File;
-use std::io::{Read, Seek, SeekFrom, Write,self};
-use std::path::PathBuf;
+use std::io::{self, Write};
+use std::io::Cursor;
 
 use bincode::{config::standard, decode_from_std_read, Decode};
-use xorf::{BinaryFuse8,Filter};
+use xorf::{BinaryFuse8, Filter};
 
-use crate::utils::default_index_if_omitted;
+use crate::storage::{create_storage, StorageError};
 
 /// Mirror the FrameInfo from build.rs for decoding
 #[derive(Debug, Decode)]
@@ -15,18 +14,18 @@ struct FrameInfo {
 }
 
 /// Main entry point for the "search" subcommand
-/// - `zst_path`: .zst file
-/// - `maybe_idx_path`: optional index path
+/// - `zst_path`: .zst file (local path or gs://bucket/path)
+/// - `maybe_idx_path`: optional index path (local path or gs://bucket/path)
 /// - `pattern_str`: string pattern to search
 pub fn run_search(
     zst_path: &str,
     maybe_idx_path: Option<&str>,
     pattern_str: &str,
-) -> io::Result<()> {
-    // Derive .idx if user didn't specify
-    let idx_path: PathBuf = default_index_if_omitted(maybe_idx_path, zst_path);
+) -> Result<(), StorageError> {
+    // Create storage backend (local or GCS)
+    let storage = create_storage(zst_path, maybe_idx_path)?;
 
-    // Convert pattern to 3-byte windows (u64 keys)
+    // Convert pattern to 8-byte windows (u64 keys)
     let pattern_bytes = pattern_str.as_bytes();
     let mut keys = Vec::new();
     for window in pattern_bytes.windows(8) {
@@ -34,24 +33,24 @@ pub fn run_search(
         keys.push(key);
     }
 
-    // Open .zst and .mg
-    let mut idx_file = File::open(&idx_path)?;
-    let mut zst_file = File::open(zst_path)?;
-
+    // Fetch index file
+    let index_data = storage.fetch_index()?;
+    let mut cursor = Cursor::new(&index_data);
     let bin_cfg = standard();
 
     // We'll read FrameInfo + BinaryFuse8 pairs until EOF
     loop {
         // 1) Read FrameInfo
-        let frame_info: FrameInfo = match decode_from_std_read(&mut idx_file, bin_cfg) {
+        let frame_info: FrameInfo = match decode_from_std_read(&mut cursor, bin_cfg) {
             Ok(fi) => fi,
             Err(_err) => {
                 // Likely EOF
                 break;
             }
         };
+        
         // 2) Read BinaryFuse filter
-        let filter: BinaryFuse8 = match decode_from_std_read(&mut idx_file, bin_cfg) {
+        let filter: BinaryFuse8 = match decode_from_std_read(&mut cursor, bin_cfg) {
             Ok(flt) => flt,
             Err(_) => {
                 // Likely EOF
@@ -59,21 +58,22 @@ pub fn run_search(
             }
         };
 
-        // 3) Check if chunk might contain all 3-byte windows
+        // 3) Check if chunk might contain all 8-byte windows
         let might_contain = keys.iter().all(|key| filter.contains(key));
         if might_contain {
-            // Seek to the chunk in the .zst file
-            zst_file.seek(SeekFrom::Start(frame_info.frame_offset))?;
-            let mut compressed_chunk = vec![0u8; frame_info.frame_size as usize];
-            zst_file.read_exact(&mut compressed_chunk)?;
+            // Read the block from storage
+            let compressed_chunk = storage.read_block(frame_info.frame_offset, frame_info.frame_size)?;
 
             // Decompress the chunk
-            let decompressed = zstd::decode_all(&compressed_chunk[..])?;
+            let decompressed = zstd::decode_all(&compressed_chunk[..])
+                .map_err(|e| StorageError::Io(std::io::Error::new(
+                    std::io::ErrorKind::InvalidData,
+                    format!("Decompression failed: {}", e)
+                )))?;
 
-            // Here, you can do whatever you want with the decompressed text.
-            // For demonstration, we just print it to STDOUT if it's a "candidate".
-            // (In real usage, you might want line-based matching, etc.)
-            io::stdout().write_all(&decompressed)?;
+            // Output the decompressed data
+            io::stdout().write_all(&decompressed)
+                .map_err(|e| StorageError::Io(e))?;
         }
     }
 
