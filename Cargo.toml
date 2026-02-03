@@ -1,7 +1,7 @@
 [package]
 name = "makigami"
 version = "0.1.0"
-edition = "2021"
+edition = "2024"
 
 [[bin]]
 name = "mg"
@@ -35,3 +35,31 @@ serde = { version = "1.0.216", features = ["derive"] }
 clap = { version = "*", features = [ "derive" ] }
 
 num_cpus = "*"
+
+# Error handling
+thiserror = "1.0"
+
+# GCS support (optional feature) — uses google-cloud-storage crate; async confined to GCS module
+[features]
+default = []
+gcs = ["google-cloud-storage", "tokio", "dirs"]
+
+# Use latest to stay in sync with GCS API; requires Rust 1.85+ (edition 2024).
+# Pin to 1.7 to avoid reqwest 0.12/0.13 conflict in 1.5.x dependency tree.
+[dependencies.google-cloud-storage]
+version = "1.7"
+optional = true
+
+[dependencies.tokio]
+version = "1"
+default-features = false
+features = ["rt", "rt-multi-thread"]
+optional = true
+
+[dependencies.dirs]
+version = "5.0"
+optional = true
+
+# Unify reqwest to 0.12 so google-cloud-storage and google-cloud-gax-internal use the same version
+[patch.crates-io]
+reqwest = { git = "https://github.com/seanmonstar/reqwest", tag = "v0.12.28" }
