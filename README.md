@@ -144,6 +144,7 @@ A: No, the index is required for the performance benefits. Without it, use stand
 
 ## Roadmap
 
+- [ ] Optimize index size (target: significantly below 33%)
 - [ ] Windows support
 - [ ] macOS ARM64 binary
 - [ ] Parallel search across multiple files
