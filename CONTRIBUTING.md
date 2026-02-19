@@ -78,7 +78,7 @@ We follow the Contributor Covenant Code of Conduct. By participating, you agree 
 
 ### Resources
 - Issue Tracker: GitHub Issues
-- Project Documentation: GitHub Pages
+- Project Documentation: `docs/` folder in this repository
 
 ---
 

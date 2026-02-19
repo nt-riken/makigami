@@ -1,7 +1,7 @@
 <![CDATA[<p align="center">
   <h1 align="center">巻紙 makigami</h1>
-  <p align="center"><strong>40x faster log search on slow storage</strong></p>
-  <p align="center">High-performance indexed search for large log files on HDDs</p>
+  <p align="center"><strong>High-Performance Log Search for Low-Cost Storage</strong></p>
+  <p align="center">Search terabytes of logs on cheap HDDs at SSD speeds</p>
 </p>
 
 <p align="center">
@@ -13,6 +13,9 @@
 ---
 
 ## Why makigami?
+
+**Problem:** Fast storage (SSD) is expensive. Cheap storage (HDD/Object Storage) is slow.
+**Solution:** Makigami makes cheap storage fast enough for interactive search.
 
 Traditional log search tools like `grep` and `zcat | grep` read files sequentially from start to finish. On large log files stored on HDDs, this means **minutes of waiting**.
 
@@ -158,7 +161,6 @@ Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for gui
 ---
 
 <p align="center">
-  <a href="https://nt-riken.github.io/makigami/">📖 Documentation</a> •
   <a href="https://github.com/nt-riken/makigami/issues">🐛 Report Bug</a> •
   <a href="https://github.com/nt-riken/makigami/issues">✨ Request Feature</a>
 </p>
