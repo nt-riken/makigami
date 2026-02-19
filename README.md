@@ -1,4 +1,5 @@
 <p align="center">
+  <img src="assets/logo.png" width="150" alt="Makigami Logo">
   <h1 align="center">巻紙 makigami</h1>
   <p align="center"><strong>High-Performance Log Search for Low-Cost Storage</strong></p>
   <p align="center">Search terabytes of logs on cheap HDDs at SSD speeds</p>
