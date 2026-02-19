@@ -1,4 +1,4 @@
-<![CDATA[<p align="center">
+<p align="center">
   <h1 align="center">巻紙 makigami</h1>
   <p align="center"><strong>High-Performance Log Search for Low-Cost Storage</strong></p>
   <p align="center">Search terabytes of logs on cheap HDDs at SSD speeds</p>
@@ -164,4 +164,3 @@ Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for gui
   <a href="https://github.com/nt-riken/makigami/issues">🐛 Report Bug</a> •
   <a href="https://github.com/nt-riken/makigami/issues">✨ Request Feature</a>
 </p>
-]]>
