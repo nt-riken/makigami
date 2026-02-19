@@ -19,12 +19,14 @@
 
 Traditional log search tools like `grep` and `zcat | grep` read files sequentially from start to finish. On large log files stored on HDDs, this means **minutes of waiting**.
 
-**makigami** creates a tiny index (only **0.5%** of original file size) that enables intelligent block-skipping, dramatically reducing read time.
+**makigami** creates a search index (approx. **1/3** of original file size) that enables intelligent block-skipping, dramatically reducing read time.
 
 | Tool | Storage | Log Size | Search Time | Speedup |
 |------|---------|----------|-------------|---------|
-| **makigami + grep** | HDD (500MB/s seq.) | 200GB | **5.5 seconds** | **40x faster** |
+| **makigami + grep** | HDD (500MB/s seq.) | 200GB | **5.5 seconds** | **Up to 40x faster*** |
 | zstd -d -c \| grep | HDD (500MB/s seq.) | 200GB | 3m 37s | baseline |
+
+> *40x speedup achieved in cold-cache scenarios where the target data is near the end of the file.
 
 > Named after the Japanese word for "scroll paper" (巻紙), makigami processes logs sequentially like unrolling a scroll—but intelligently skips irrelevant sections.
 
@@ -57,7 +59,7 @@ sudo mv target/release/mg /usr/local/bin/
 
 ```bash
 mg build access.log
-# Output: access.log.zstd (compressed) + access.log.mg (index, ~0.5% size)
+# Output: access.log.zstd (compressed) + access.log.mg (index, ~33% size)
 ```
 
 **Step 2: Search** — Lightning-fast search using the index
@@ -79,8 +81,8 @@ mg search -z access.log.zstd "ERROR" | grep "database" | awk '{print $1, $2}'
 ### ⚡ Optimized for Slow Storage
 Sequential read optimization designed specifically for HDD performance characteristics. No random seeks means maximum throughput.
 
-### 📦 Tiny Index Size
-Index files are only **0.5%** of the original log size. A 200GB log produces just a ~1GB index.
+### 📦 Search Index
+Index files are approx. **1/3** of the original log size. A 200GB log produces a ~66GB index.
 
 ### 🔧 UNIX Philosophy
 Works seamlessly with `grep`, `awk`, `sed`, `sort`, and any other command-line tool. No lock-in.
@@ -104,7 +106,7 @@ Uses Zstandard compression for storage efficiency while maintaining search speed
 ```
 ┌─────────────┐     mg build      ┌─────────────────┐
 │  access.log │ ───────────────►  │ access.log.zstd │  (compressed data)
-│   (200GB)   │                   │ access.log.mg   │  (tiny index, ~1GB)
+│   (200GB)   │                   │ access.log.mg   │  (index, ~66GB)
 └─────────────┘                   └─────────────────┘
                                            │
                                            │ mg search "pattern"
