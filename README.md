@@ -142,7 +142,7 @@ A: No, the index is required for the performance benefits. Without it, use stand
 
 ---
 
-## Roadmap
+## TODO
 
 - [ ] Optimize index size (target: significantly below 33%)
 - [ ] Windows support
