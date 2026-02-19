@@ -148,7 +148,7 @@ A: No, the index is required for the performance benefits. Without it, use stand
 - [ ] Windows support
 - [x] macOS ARM64 binary
 - [ ] Parallel search across multiple files
-- [ ] crates.io publication
+- [x] crates.io publication
 
 ---
 
