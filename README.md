@@ -37,15 +37,15 @@ Traditional log search tools like `grep` and `zcat | grep` read files sequential
 
 ### Installation
 
-**Linux (Prebuilt Binary):**
+**macOS (Apple Silicon):**
 
 ```bash
-curl -LO https://github.com/nt-riken/makigami/releases/download/v0.1.0/mg-linux-x64-musl
-chmod +x mg-linux-x64-musl
-sudo mv mg-linux-x64-musl /usr/local/bin/mg
+curl -LO https://github.com/nt-riken/makigami/releases/download/v0.1.0/mg-macos-arm64
+chmod +x mg-macos-arm64
+sudo mv mg-macos-arm64 /usr/local/bin/mg
 ```
 
-**macOS / Other (Build from Source):**
+**Linux / Other (Build from Source):**
 
 ```bash
 # Requires Rust installed (https://rustup.rs/)
@@ -146,7 +146,7 @@ A: No, the index is required for the performance benefits. Without it, use stand
 
 - [ ] Optimize index size (target: significantly below 33%)
 - [ ] Windows support
-- [ ] macOS ARM64 binary
+- [x] macOS ARM64 binary
 - [ ] Parallel search across multiple files
 - [ ] Regex pattern support in index
 - [ ] crates.io publication
