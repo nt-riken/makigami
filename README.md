@@ -36,7 +36,7 @@ Traditional log search tools like `grep` and `zcat | grep` read files sequential
 
 ### Installation
 
-**Download prebuilt binary (Linux x64):**
+**Linux (Prebuilt Binary):**
 
 ```bash
 curl -LO https://github.com/nt-riken/makigami/releases/download/v0.1.0/mg-linux-x64-musl
@@ -44,9 +44,10 @@ chmod +x mg-linux-x64-musl
 sudo mv mg-linux-x64-musl /usr/local/bin/mg
 ```
 
-**Or build from source:**
+**macOS / Other (Build from Source):**
 
 ```bash
+# Requires Rust installed (https://rustup.rs/)
 git clone https://github.com/nt-riken/makigami.git
 cd makigami
 cargo build --release
